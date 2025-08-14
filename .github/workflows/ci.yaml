@@ -100,3 +100,12 @@ jobs:
       with:
         name: test-reports
         path: build/reports/tests/
+
+  e2e-integration:
+    needs: test
+    if: github.event_name == 'pull_request'
+    uses: satoshi-watanabe-0001/ahamo-dummy-demo2-e2e/.github/workflows/backend-e2e-caller.yaml@main
+    with:
+      ENV: "e2e"
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+    secrets: inherit
